@@ -1,0 +1,78 @@
+<div class="jumbotron mt-2 p-2 text-center text-uppercase mb-0">
+    <h4 class="text-success font-weight-bold">{{tenMH}}</h4>
+</div>
+
+<div class="mt-5 ml-1 text-center" ng-hide="!hide">
+    <button class="btn btn-success" ng-click="hien()">Bắt đầu làm bài</button>
+    <p class="lead mt-2 font-weight-bold">Sẵn sàng làm bài. Vào thi ngay !!!</p>
+</div>
+
+
+<div ng-hide="hide">
+    <div ng-show="finish" class="text-center">
+        <h4 class="mt-5 text-primary">HOÀN THÀNH BÀI KIỂM TRA !</h4>
+        <div class="container  mt-3 w-50">
+            <div class="card  ">
+                <div class="card-header font-weight-bold text-primary h5">
+                    TỔNG KẾT
+                </div>
+                <div class="card-body">
+                    <p><b>Tổng điểm :</b>  {{diem}} / {{count}}</p> 
+                     <p><b>Số câu hỏi :</b>  {{vitriht}} of {{count}}</p>
+                     <p><b>Thời gian :</b> {{minitues}} phút : {{seconds}} giây </p>   
+                </div>
+            </div>
+        </div>
+        <a href="#!monhoc"><button class="btn btn-info mt-3">Quay lại</button></a>
+    </div>
+    <div class="mt-4" ng-show="!finish" > 
+        <button ng-click="finishedtest()" class="btn btn-primary btn-sm">Finish the Test</button>
+    </div>
+    <div ng-show="!finish">
+        <div class="row mt-4 ">
+            <div class="col-6">
+                <b>Thời gian làm bài:</b> &nbsp;<span id="hg"> {{minitues}} phút : {{seconds}} giây </span>
+            </div>
+            <div class="col-6">
+                <b>Số câu hỏi:</b> &nbsp; {{vitriht}} of {{count}}
+            </div>
+        </div>
+        <div class="card mt-4" ng-repeat="tn in caccauhoi|limitTo:pageSize:start">
+            <div class="card-header">
+                <b>Câu {{tn.Id}} : {{tn.Text}}</b>
+
+            </div>
+            <div class="card-body">
+                <p class="card-text" ng-repeat="pa in tn.Answers">
+                    <input type="radio" name="answer" value="{{pa.Id}}"> {{pa.Text}}
+                </p>
+            </div>
+            <div class="card-footer form-inline">
+                <button ng-disabled="index!=0" ng-click="checkQuiz(tn.AnswerId, tn.Marks)"
+                    class="btn btn-info">Submit</button>
+                <h6 class="ml-2 text-primary my-auto" id="dad"></h6>
+                <h6 class="ml-2 text-danger my-auto" id="das"></h6>
+                <div class="ml-auto">
+                    <h6 class="my-auto"><b>Điểm:</b> {{diem}} / {{count}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4 mx-auto">
+            <div class="pagination mx-auto">
+                <li class="page-item">
+                    <button ng-click="first()" class="page-link">First</button>
+                </li>
+                <div class="page-item">
+                    <button ng-click="prev()" class="page-link">Previous</button>
+                </div>
+                <div class="page-item">
+                    <button ng-click="next()" class="page-link">Next</button>
+                </div>
+                <div class="page-item">
+                    <button ng-click="last()" class="page-link">Last</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-header bg-warning ">
+        <h5 class="text-uppercase text-light mb-0">
+            <li class="fas fa-list"></li> &nbsp; Danh mục
+        </h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="list-group">
+            <div class="list-group-item" ng-repeat="mh in subjects|orderBy:'Name'">
+                <a href="#!tracnghiem/{{mh.Id}}/{{mh.Name}}">
+                   {{mh.Name|uppercase}}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="col-10 m-auto pt-5">
+    <div class="card border border-info">
+        <div class="card-header bg-info text-center text-light ">
+            <h3 class="text-uppercase  font-weight-bold">đổi mật khẩu</h3>
+            <span class="font-italic">Kính mời nhập thông tin bên dưới</span>
+        </div>
+        <div class="card-body ml-3 mr-3">
+            <form name="frmchangepass">
+                <div class="row form-group">
+                    <label for="user">Tài khoản</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user text-primary"></i></span>
+                        </div>
+                        <input name="username" ng-model="username" required class="form-control" placeholder="Nhập tài khoản">
+                    </div>
+                    <div ng-show="frmchangepass.username.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập tài khoản đăng nhập
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="pass">Mật khẩu cũ</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key text-primary"></i></span>
+                        </div>
+                        <input name="password1" ng-model="password1" type="password" required class="form-control"
+                            placeholder="Nhập mật khẩu">
+                    </div>
+                    <div ng-show="frmchangepass.password1.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập mật khẩu cũ
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="pass">Mật khẩu mới</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock-open text-primary"></i></span>
+                        </div>
+                        <input name="password2" ng-model="password2" type="password" required class="form-control"
+                            placeholder="Nhập mật mới">
+                    </div>
+                    <div ng-show="frmchangepass.password2.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập mật khẩu mới
+                    </div>
+                </div>
+                <div class="row">
+                    <button ng-disabled="frmchangepass.$invalid" class="btn btn-info btn-block text-uppercase font-weight-bold">ĐỔI MẬT KHẨU</button>
+                </div>
+                <p class="text-center mt-3">Vào trang đăng nhập. <a href="#!dangnhap"> &nbsp;Đăng nhập ngay ?</a></p>
+            </form>
+
+        </div>
+    </div>
+</div>

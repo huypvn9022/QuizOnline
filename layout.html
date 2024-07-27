@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thi trắc nghiệm</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/fpt.png">
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- font-answer -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+
+    <!-- angularjs  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.8.2/angular-route.min.js"></script>
+
+    <style>
+        header.row {
+            height: 420px;
+        }
+
+        nav {
+            height: 50px;
+        }
+
+        article,
+        aside {
+            height: auto;
+        }
+
+        .nav {
+            line-height: 35px;
+        }
+
+        .nav-link:hover {
+            background-color: royalblue;
+        }
+
+        .nav-item a.active {
+            background-color: red;
+        }
+
+        .list-group-item:hover {
+            background-color: gainsboro;
+            color: white;
+        }
+
+        .col-sm-4>.card:hover {
+            color: blue;
+            transition: width 2s, height 2s;
+        }
+
+        input.ng-invalid {
+            border: 1px solid red;
+        }
+    </style>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div class="container border">
+        <header ng-include="'header.html'"></header>
+        <nav ng-include="'navbar.html'"></nav>
+        <div class="row">
+            <article class="col-9 mb-4">
+                <ng-view></ng-view>
+            </article>
+            <aside ng-include="'aside.html'" class="col-sm-3 p-0 border mb-4">
+            </aside>
+        </div>
+        <footer ng-include="'footer.html'"></footer>
+    </div>
+</body>
+<script>
+
+    var app = angular.module('myApp', ["ngRoute"]);
+
+    app.config(function ($routeProvider) {
+        $routeProvider
+            .when('/gioithieu', { templateUrl: 'gioithieu.html', controller: 'myCtrl' })
+            .when('/lienhe', { templateUrl: 'lienhe.html', controller: 'myCtrl' })
+            .when('/dangnhap', { templateUrl: 'dangnhap.html', controller: 'tkCtrl' })
+            .when('/dangky', { templateUrl: 'dangky.html', controller: 'tkCtrl' })
+            .when('/dangxuat', { templateUrl: 'monhoc.html', controller: 'tkCtrl' })
+            .when('/doimatkhau', { templateUrl: 'doimatkhau.html', controller: 'myCtrl' })
+            .when('/quenmatkhau', { templateUrl: 'quenmatkhau.html', controller: 'tkCtrl' })
+            .when('/cntaikhoan', { templateUrl: 'suataikhoan.html', controller: 'myCtrl' })
+            .when('/monhoc', { templateUrl: 'monhoc.html', controller: 'myCtrl' })
+            .when('/tracnghiem/:idMH/:tenMH', { templateUrl: 'tracnghiem.html', controller: 'tnCtrl' })
+            .otherwise({ templateUrl: 'monhoc.html' })
+    });
+
+    app.controller('tnCtrl', function ($scope, $http, $routeParams, $interval) {
+        $scope.caccauhoi = [];
+        $scope.idMH = $routeParams.idMH;
+        $scope.tenMH = $routeParams.tenMH;
+        $scope.index = 0;
+        $scope.start = 0;
+        $scope.pageSize = 1;
+        $scope.vitriht = 1;
+
+        $scope.hide = true;
+        $scope.hien = function () {
+            $scope.hide = false;
+        }
+
+        $http.get('db/Quizs/' + $scope.idMH + '.js').then(
+            function (mh) {
+                $scope.caccauhoi = mh.data;
+                $scope.caccauhoi = $scope.caccauhoi.slice(0, 10);
+                $scope.count = $scope.caccauhoi.length;
+            },
+            function (e) {
+                alert('Lỗi' + e.statusText);
+            }
+        );
+
+        // check quiz
+        $scope.diem = 0;
+        $scope.checkQuiz = function (answerId, mark) {
+            if (!$('input[name=answer]:checked').length) {
+                return 0;
+            }
+            var ans = $('input[name=answer]:checked').val();
+            if (ans == answerId) {
+                $scope.diem += mark;
+                document.getElementById('dad').innerHTML = 'ĐÁP ÁN ĐÚNG';
+            } else {
+                $scope.diem += 0;
+                document.getElementById('das').innerHTML = 'ĐÁP ÁN SAI';
+            }
+            $scope.index = 1;
+        }
+
+        $scope.first = function () {
+            $scope.start = 0;
+            $scope.vitriht = 1;
+            $scope.index = 0;
+        }
+
+        $scope.prev = function () {
+            if ($scope.start > 0) {
+                $scope.start -= $scope.pageSize;
+            }
+            if ($scope.vitriht <= 1) {
+                $scope.vitriht = 1;
+            } else {
+                $scope.vitriht -= 1;
+            }
+            $scope.index = 0;
+        }
+
+        $scope.next = function () {
+            if ($scope.start < $scope.caccauhoi.length - $scope.pageSize) {
+                $scope.start += $scope.pageSize;
+            }
+            if ($scope.vitriht >= 10) {
+                $scope.vitriht += 0;
+            } else {
+                $scope.vitriht += 1;
+            }
+            $scope.index = 0;
+        }
+
+        $scope.last = function () {
+            sotrang = Math.ceil($scope.caccauhoi.length / $scope.pageSize);
+            $scope.start = (sotrang - 1) * $scope.pageSize;
+            $scope.vitriht = ($scope.count - 1) + 1;
+            $scope.index = 0;
+        }
+
+        $scope.minitues = 5;
+        $scope.seconds = 0;
+        $scope.timeout = 0;
+        $scope.finish = false;
+
+        // time
+        var myVar = $interval(function () {
+            if ($scope.seconds <= 0) {
+                $scope.seconds = 59;
+                $scope.minitues--;
+            }
+            else {
+                $scope.seconds--;
+            }
+
+            if ($scope.minitues < 0) {
+                $scope.finish = true;
+                $scope.minitues = 1;
+                $scope.seconds = 59;
+                $interval.cancel(myVar);    
+            }
+        }, 1000);
+
+        // finish test
+        $scope.finishedtest = function () {
+            var thongbao = confirm('Bạn có muốn hoàn thành bài kiểm tra không ?');
+            if (thongbao == true) {
+                $scope.finish = true;
+                $interval.cancel(myVar);
+            } else {
+                $scope.finish = false;
+            }
+        }
+
+
+    });
+
+
+    app.controller('tkCtrl', function ($scope, $http) {
+        $scope.students = [];
+        $scope.student = {};
+
+        $http.get('db/Students.js').then(
+            function (st) {
+                $scope.students = st.data;
+            },
+            function (e) {
+                alert('Lỗi : ' + e.statusText)
+            }
+        );
+
+        // dang nhap
+        $scope.login = function () {
+            var user = $scope.username;
+            var pass = $scope.password;
+            var success = false;
+            for (var i = 0; i < $scope.students.length; i++) {
+                if (user == $scope.students[i].username && pass == $scope.students[i].password) {
+                    success = true;
+                    $scope.student = angular.copy($scope.students[i]);
+                    break;
+                }
+            }
+
+            if (success) {
+                document.location = 'layout.html';
+                sessionStorage.setItem('user', JSON.stringify($scope.student));
+                alert('Đăng nhập thành công !');
+            } else {
+                sessionStorage.setItem('user', null);
+                alert('Sai tài khoản hoặc mật khẩu !');
+            }
+        };
+
+        // dang ky
+        $scope.dangky = function () {
+            $scope.students.push($scope.student);
+            alert('Đăng ký thành công. Đăng nhập tài khoản để sử dụng ');
+            document.location = 'layout.html';
+        };
+
+        // dang xuat
+        $scope.dangxuat = function () {
+            sessionStorage.removeItem('user');
+            document.location = 'layout.html';
+        }
+
+
+    });
+
+    app.controller('myCtrl', function ($scope, $http) {
+
+        $scope.subjects = [];
+        $scope.pageSize = 4;
+        $scope.start = 0;
+
+        $http.get('db/Subjects.js').then(
+            function (mh) {
+                $scope.subjects = mh.data;
+            },
+            function (e) {
+                alert('Lỗi : ' + e.statusText);
+            });
+
+        $scope.dau = function () {
+            $scope.start = 0;
+        }
+
+        $scope.sau = function () {
+            if ($scope.start > 0) {
+                $scope.start -= $scope.pageSize;
+            }
+        }
+
+        $scope.truoc = function () {
+            if ($scope.start < $scope.subjects.length - $scope.pageSize) {
+                $scope.start += $scope.pageSize;
+            }
+        }
+
+        $scope.cuoi = function () {
+            sotrang = Math.ceil($scope.subjects.length / $scope.pageSize);
+            $scope.start = (sotrang - 1) * $scope.pageSize;
+        }
+
+        $scope.fourpage = function () {
+            $scope.pageSize = 4;
+        }
+
+        $scope.eightpage = function () {
+            $scope.pageSize = 8;
+        }
+
+        $scope.twelveage = function () {
+            $scope.pageSize = 12;
+        }
+
+        $scope.sixteenage = function () {
+            $scope.pageSize = 16;
+        };
+
+    });
+</script>
+
+</html>

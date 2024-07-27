@@ -1,0 +1,95 @@
+<div class="col-10 m-auto pt-5">
+    <div class="card border border-info">
+        <div class="card-header bg-info text-center text-light ">
+            <h3 class="text-uppercase  font-weight-bold">đăng ký</h3>
+            <span class="font-italic">Kính mời nhập thông tin bên dưới</span>
+        </div>
+        <div class="card-body ml-3 mr-3">
+            <form name="frmdk">
+                <div class="row form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user text-primary"></i></span>
+                        </div>
+                        <input name="username" ng-model="student.username" required class="form-control"
+                            placeholder="Nhập tài khoản">
+                    </div>
+                    <div ng-show="frmdk.username.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập tài khoản đăng nhập
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key text-primary"></i></span>
+                        </div>
+                        <input name="password" ng-model="student.password" type="password" required class="form-control"
+                            placeholder="Nhập mật khẩu">
+                    </div>
+                    <div ng-show="frmdk.password.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập mật khẩu đăng nhập
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-file-signature text-primary"></i></span>
+                        </div>
+                        <input name="fullname" ng-model="student.fullname" required class="form-control"
+                            placeholder="Nhập họ và tên">
+                    </div>
+                    <div ng-show="frmdk.fullname.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập đầy đủ họ và tên
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope text-primary"></i></span>
+                        </div>
+                        <input name="email" ng-model="student.email" required type="email" class="form-control"
+                            placeholder="Nhập email">
+                    </div>
+                    <div ng-show="frmdk.email.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập đúng email
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-2 p-0">Giới tính :</label>
+                    <div class="col-10">
+                        <div class=" form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" value="true" class="form-check-input" ng-model="student.gender" name="gender" checked>Nam
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" value="false" class="form-check-input" ng-model="student.gender" name="gender">Nữ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-birthday-cake text-primary"></i></span>
+                        </div>
+                        <input name="birthday" ng-model="student.birthday" required  class="form-control"
+                            placeholder="Nhập ngày sinh" type="date">
+                    </div>
+                    <div ng-show="frmdk.birthday.$invalid" class="text-danger font-italic ml-5">
+                        Vui lòng nhập đúng ngày sinh
+                    </div>
+                </div>
+                <div class="row">
+                    <button ng-click="dangky()" ng-disabled="frmdk.$invalid"
+                        class="btn btn-info btn-block text-uppercase font-weight-bold">ĐĂNG
+                        KÝ</button>
+                </div>
+                <p class="text-center mt-3">Nếu bạn đã có tài khoản ? <a href="#!dangnhap"> &nbsp; Đăng nhập ngay</a>
+                </p>
+            </form>
+
+        </div>
+    </div>
+</div>
